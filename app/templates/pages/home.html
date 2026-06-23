@@ -1,0 +1,10 @@
+{%extends 'pages/_base.html'%}
+{%block content%}
+
+<main class="w-full h-screen relative">
+    <img class="w-full h-[80%] -z-10 absolute object-cover" src="https://images.pexels.com/photos/5926238/pexels-photo-5926238.jpeg">
+    <h1 class="shop text-white text-[22rem] absolute inset-0 w-fit h-fit m-auto">Shop</h1>
+    {% include 'pages/product.html' %}
+</main>
+
+{%endblock%}
