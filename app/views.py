@@ -2,7 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 
 def home(request):
-    return render(request, 'pages/home.html')
+    category = Category.objects.all()
+    product = Product.objects.all()
+    context = {
+        'category': category,
+        'product': product
+    }
+    return render(request, 'pages/home.html', context)
 
 def shop(request):
     return render(request, 'pages/shop.html')

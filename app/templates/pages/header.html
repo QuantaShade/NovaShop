@@ -1,10 +1,37 @@
 <header class="bg-white dark:bg-white w-[90%] m-auto fixed left-0 right-0 z-10 flex justify-between items-center p-4 rounded-b-xl">
     {%include 'components/logo.html'%}
-    <nav class="flex gap-4">
+    <nav class="gap-4 hidden md:flex">
         <a class="hover:text-gray-500 duration-200" href="/">Home</a>
         <a class="hover:text-gray-500 duration-200" href="/">About</a>
         <a class="hover:text-gray-500 duration-200" href="/">Contact</a>
         <a class="hover:text-gray-500 duration-200" href="/">Services</a>
     </nav>
+    <div class="flex gap-2 items-center">
         <img class="w-8 h-8 rounded-full object-cover" src="https://i.pinimg.com/1200x/6a/76/fb/6a76fb1dc0538a6a78ce31e3c827a9e8.jpg">
+    <div class="block md:hidden">
+        <nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <button class="navbar-toggler w-8 h-8 grid justify-center items-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon w-4 h-4"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="grid gap-2">
+            <nav class="grid gap-4">
+        <a class="hover:text-gray-500 duration-200" href="/">Home</a>
+        <a class="hover:text-gray-500 duration-200" href="/">About</a>
+        <a class="hover:text-gray-500 duration-200" href="/">Contact</a>
+        <a class="hover:text-gray-500 duration-200" href="/">Services</a>
+    </nav>
+    <button class="btn bg-dark text-white rounded-full">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+    </div>
+    </div>
 </header>

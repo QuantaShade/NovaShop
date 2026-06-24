@@ -1,6 +1,32 @@
-<section class="w-[90%] h-screen absolute left-0 right-0 m-auto bg-white top-[25rem] rounded-t-xl overflow-hidden">
-    <header class="w-full p-4 flex justify-center items-center">
+<section class="w-[90%] absolute left-0 right-0 m-auto bg-white top-[25rem] rounded-t-xl overflow-hidden">
+    <header class="w-full p-4 grid gap-4 justify-center items-center">
         <input type="text" class="form-control rounded-full" placeholder="Search">
+        <div class="flex flex-wrap gap-2">
+        <button class="btn btn-dark rounded-full">All</button>
+        {%for c in category%}
+            <button class="btn btn-dark rounded-full grow">{{c.name}}</button>
+        {%endfor%}
+        </div>
     </header>
+
+    <div class="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-5 mb-22">
+        {%for p in product%}
+        <div class="w-full grid gap-2 relative">
+            <div class="absolute font-bold -top-8 right-5 bg-white/50 border p-2 rounded-full">{{p.category}}</div>
+            <img class="rounded-t-xl w-full h-[50vh]" src="{{p.image.url}}">
+            <div class="grid gap-2 p-4">
+                <h1 class="text-2xl">{{p.name}}</h1>
+                <div class="flex justify-between">
+                    <div>⭐ 5.0</div>
+                    <div>${{p.price}}</div>
+                </div>
+                <div class="flex gap-2">
+                    <button class="w-full btn btn-light border rounded-full">Add to chart</button>
+                    <button class="w-full btn btn-dark rounded-full">Buy now</button>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
 
 </section>
