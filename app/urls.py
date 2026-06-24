@@ -9,12 +9,10 @@ urlpatterns = [
     path("customers/update/<int:pk>/", customer_update, name="customer_update"),
     path("customers/delete/<int:pk>/", customer_delete, name="customer_delete"),
 
-    path("categories/", category_list, name="category_list"),
     path("categories/create/", category_create, name="category_create"),
     path("categories/update/<int:pk>/", category_update, name="category_update"),
     path("categories/delete/<int:pk>/", category_delete, name="category_delete"),
 
-    path("products/", product_list, name="product_list"),
     path("products/create/", product_create, name="product_create"),
     path("products/update/<int:pk>/", product_update, name="product_update"),
     path("products/delete/<int:pk>/", product_delete, name="product_delete"),

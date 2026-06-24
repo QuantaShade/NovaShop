@@ -2,15 +2,15 @@
     <header class="w-full p-4 grid gap-4 justify-center items-center">
         <input type="text" class="form-control rounded-full" placeholder="Search">
         <div class="flex flex-wrap gap-2">
-        <button class="btn btn-dark rounded-full">All</button>
-        {%for c in category%}
-            <button class="btn btn-dark rounded-full grow">{{c.name}}</button>
+            <a href="/" class="btn {%if selected_category%}btn-outline-dark {%else%} btn-dark{%endif%} rounded-full">All</a>
+        {%for c in categories%}
+            <a href="/?category={{ c.id }}"><button class="btn {% if selected_category == c.id|stringformat:'s' %}btn-dark{% else %}btn-outline-dark{% endif %} rounded-full grow">{{c.name}}</button></a>
         {%endfor%}
         </div>
     </header>
 
     <div class="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-5 mb-22">
-        {%for p in product%}
+        {%for p in products%}
         <div class="w-full grid gap-2 relative">
             <div class="absolute font-bold -top-8 right-5 bg-white/50 border p-2 rounded-full">{{p.category}}</div>
             <img class="rounded-t-xl w-full h-[50vh]" src="{{p.image.url}}">
@@ -21,7 +21,7 @@
                     <div>${{p.price}}</div>
                 </div>
                 <div class="flex gap-2">
-                    <button class="w-full btn btn-light border rounded-full">Add to chart</button>
+                    <button class="w-full btn btn-outline-dark rounded-full">Add to chart</button>
                     <button class="w-full btn btn-dark rounded-full">Buy now</button>
                 </div>
             </div>

@@ -2,11 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 
 def home(request):
-    category = Category.objects.all()
-    product = Product.objects.all()
+    categories = Category.objects.all()
+    products = Product.objects.all()
+    category_id = request.GET.get("category")
+    if category_id:
+        products = products.filter(category_id=category_id)
     context = {
-        'category': category,
-        'product': product
+        'categories': categories,
+        'products': products,
+        "selected_category": category_id,
     }
     return render(request, 'pages/home.html', context)
 
@@ -35,9 +39,9 @@ def customer_create(request):
     return render(request, "customers/create.html")
 
 
-def customer_update(request, pk):
+def customer_update(request, id):
 
-    customer = get_object_or_404(Customer, pk=pk)
+    customer = get_object_or_404(Customer, id=id)
 
     if request.method == "POST":
         customer.first_name = request.POST["first_name"]
@@ -55,9 +59,9 @@ def customer_update(request, pk):
     })
 
 
-def customer_delete(request, pk):
+def customer_delete(request, id):
 
-    customer = get_object_or_404(Customer, pk=pk)
+    customer = get_object_or_404(Customer, id=id)
 
     if request.method == "POST":
         customer.delete()
@@ -66,14 +70,6 @@ def customer_delete(request, pk):
     return render(request, "customers/delete.html", {
         "customer": customer
     })
-
-def category_list(request):
-    categories = Category.objects.all()
-
-    return render(request, "categories/list.html", {
-        "categories": categories
-    })
-
 
 def category_create(request):
 
@@ -88,9 +84,9 @@ def category_create(request):
     return render(request, "categories/create.html")
 
 
-def category_update(request, pk):
+def category_update(request, id):
 
-    category = get_object_or_404(Category, pk=pk)
+    category = get_object_or_404(Category, id=id)
 
     if request.method == "POST":
         category.name = request.POST["name"]
@@ -105,9 +101,9 @@ def category_update(request, pk):
     })
 
 
-def category_delete(request, pk):
+def category_delete(request, id):
 
-    category = get_object_or_404(Category, pk=pk)
+    category = get_object_or_404(Category, id=id)
 
     if request.method == "POST":
         category.delete()
@@ -117,11 +113,11 @@ def category_delete(request, pk):
         "category": category
     })
 
-def product_list(request):
-    products = Product.objects.all()
+def product_list(request, id):
+    product = get_object_or_404(Product, id=id)
 
-    return render(request, "products/list.html", {
-        "products": products
+    return render(request, "pages/productView.html", {
+        "product": product
     })
 
 
@@ -147,9 +143,9 @@ def product_create(request):
     })
 
 
-def product_update(request, pk):
+def product_update(request, id):
 
-    product = get_object_or_404(Product, pk=pk)
+    product = get_object_or_404(Product, id=id)
     categories = Category.objects.all()
 
     if request.method == "POST":
@@ -173,9 +169,9 @@ def product_update(request, pk):
     })
 
 
-def product_delete(request, pk):
+def product_delete(request, id):
 
-    product = get_object_or_404(Product, pk=pk)
+    product = get_object_or_404(Product, id=id)
 
     if request.method == "POST":
         product.delete()
@@ -213,9 +209,9 @@ def order_create(request):
     })
 
 
-def order_update(request, pk):
+def order_update(request, id):
 
-    order = get_object_or_404(Order, pk=pk)
+    order = get_object_or_404(Order, id=id)
     customers = Customer.objects.all()
 
     if request.method == "POST":
@@ -234,9 +230,9 @@ def order_update(request, pk):
     })
 
 
-def order_delete(request, pk):
+def order_delete(request, id):
 
-    order = get_object_or_404(Order, pk=pk)
+    order = get_object_or_404(Order, id=id)
 
     if request.method == "POST":
         order.delete()
@@ -246,9 +242,6 @@ def order_delete(request, pk):
         "order": order
     })
 
-# ==========================
-# OrderItem Views
-# ==========================
 
 def order_item_list(request):
 
@@ -285,9 +278,9 @@ def order_item_create(request):
     })
 
 
-def order_item_update(request, pk):
+def order_item_update(request, id):
 
-    item = get_object_or_404(OrderItem, pk=pk)
+    item = get_object_or_404(OrderItem, id=id)
 
     orders = Order.objects.all()
     products = Product.objects.all()
@@ -314,9 +307,9 @@ def order_item_update(request, pk):
     })
 
 
-def order_item_delete(request, pk):
+def order_item_delete(request, id):
 
-    item = get_object_or_404(OrderItem, pk=pk)
+    item = get_object_or_404(OrderItem, id=id)
 
     if request.method == "POST":
         item.delete()
