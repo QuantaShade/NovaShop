@@ -247,15 +247,12 @@ def order_item_list(request):
 
     items = OrderItem.objects.all()
 
-    return render(request, "order_items/list.html", {
+    return render(request, "pages/cart.html", {
         "items": items
     })
 
 
 def order_item_create(request):
-
-    orders = Order.objects.all()
-    products = Product.objects.all()
 
     if request.method == "POST":
 
@@ -270,41 +267,26 @@ def order_item_create(request):
             subtotal=product.price * quantity
         )
 
-        return redirect("order_item_list")
-
-    return render(request, "order_items/create.html", {
-        "orders": orders,
-        "products": products
-    })
+    return render(request, "order_items/create.html")
 
 
 def order_item_update(request, id):
 
     item = get_object_or_404(OrderItem, id=id)
 
-    orders = Order.objects.all()
-    products = Product.objects.all()
-
     if request.method == "POST":
 
         product = Product.objects.get(id=request.POST["product"])
         quantity = int(request.POST["quantity"])
 
-        item.order = Order.objects.get(id=request.POST["order"])
-        item.product = product
         item.quantity = quantity
-        item.unit_price = product.price
         item.subtotal = product.price * quantity
 
         item.save()
 
         return redirect("order_item_list")
 
-    return render(request, "order_items/update.html", {
-        "item": item,
-        "orders": orders,
-        "products": products
-    })
+    return redirect("order_item_list")
 
 
 def order_item_delete(request, id):
@@ -312,9 +294,7 @@ def order_item_delete(request, id):
     item = get_object_or_404(OrderItem, id=id)
 
     if request.method == "POST":
+        print("deleted")
         item.delete()
-        return redirect("order_item_list")
 
-    return render(request, "order_items/delete.html", {
-        "item": item
-    })
+    return redirect("order_item_list")

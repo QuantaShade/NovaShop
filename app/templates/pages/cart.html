@@ -1,0 +1,104 @@
+{%extends 'pages/_base.html'%}
+{%block content%}
+
+<main class="w-full">
+    <div class="w-[90%] mt-[10rem] mx-auto relative">
+        <h1 class="shop text-9xl">Cart Page</h1>
+    <button class="btn btn-outline-dark absolute right-5 rounded-full -top-8">Lets Talk!</button>
+    <div class="w-full table-responsive">
+    <table class="table mt-8 whitespace-nowrap">
+  <thead>
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Unit price</th>
+      <th scope="col">Subtotal</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for d in items%}
+    <tr>
+      <th scope="row">
+        <div class="flex gap-2 mr-12">
+            <img src="{{d.product.image.url}}" class="w-12 h-12 rounded-xl">
+            <div class="flex flex-col">
+                <h1>{{d.product.name}}</h1>
+                <small class="text-gray-500">{{d.product.category}}</small>
+            </div>
+        </div>
+      </th>
+      <td>
+        <div class="d-flex align-items-center justify-content-center border border-dark rounded-pill w-[140px]">
+  <button type="button" class="btn btn-sm border-0 fw-bold" onclick="quantityInputFn(this, -1)">−</button>
+  <input 
+    type="text"
+    class="qty-input form-control border-0 text-center fw-semibold p-0 shop text-2xl" 
+    value="{{d.quantity}}"
+    name="quantity"
+    oninput="syncQty(this)"
+    min="1"
+  >
+  <button type="button" class="btn btn-sm border-0 fw-bold" onclick="quantityInputFn(this, 1)">+</button>
+</div>
+      </td>
+      <td class="shop text-2xl">${{d.unit_price}}</td>
+      <td class="shop text-2xl">${{d.subtotal}}</td>
+      <td>
+        <div class="flex gap-2">
+            <form method="POST" action="{%url 'order_item_delete' d.id%}">
+                {%csrf_token%}
+                <button type="submit" class="flex cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+            </form>
+            <form method="POST" action="{%url 'order_item_update' d.id%}">
+                {%csrf_token%}
+                <input type="hidden" class="qty-hidden" value="{{d.quantity}}" name="quantity">
+                <input type="hidden" name="product" value="{{d.product.id}}">
+                <button type="submit" class="flex cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffdd00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
+                </button>
+            </form>
+        </div>
+      </td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+</div>
+    </div>
+    <script>
+    function quantityInputFn(btn, delta) {
+        const row = btn.closest('tr');
+    
+        const input = row.querySelector('.qty-input');
+        const hidden = row.querySelector('.qty-hidden');
+    
+        let value = parseInt(input.value) || 1;
+
+        value = Math.max(1, value + delta);
+    
+        input.value = value;
+        hidden.value = value;
+    }
+
+    function syncQty(input) {
+        const row = input.closest('tr');
+        const hidden = row.querySelector('.qty-hidden');
+    
+        let value = parseInt(input.value);
+    
+        if (isNaN(value) || value < 1) {
+            value = 1;
+            input.value = 1;
+        }
+    
+        hidden.value = value;
+    }
+    </script>
+
+</main>
+
+
+{%endblock%}
